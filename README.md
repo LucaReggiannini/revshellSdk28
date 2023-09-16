@@ -6,7 +6,7 @@ The idea was to create a Termux-like environment with a main APK with core funct
 This app was made for fun and informational purposes only. I strongly discourage any illegal use of the app! Please be responsible.
 
 ## Features
-- **Secure TLS shell**
+- **Secure SSL shell**
 - **Persistent** over time and reboots
 - **Hidden** and camouflaged with Google apps
 - **Drops additional statically linked executable and scripts** based on CPU architecture
@@ -95,7 +95,7 @@ You can use an IP or an hostname. Example:
 Of course you must use a **public address**, set **port forwarding** and firewall rules on your router. Additionally, you can use DNS, Ngrok and other services for reachability and to route your traffic but **how to set this configurations or use those services is out of the scope of this documentation!**
 
 ### How to start a session
-1. Generate a certificate for the TLS connection on your C2 server:
+1. Generate a certificate for the SSL connection on your C2 server:
 ```
 openssl req -newkey rsa:2048 -nodes -keyout bind.key -x509 -days 1000 -out bind.crt
 cat bind.key bind.crt > bind.pem
