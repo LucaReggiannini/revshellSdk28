@@ -32,11 +32,11 @@ This is the Reverse Shell in action. On the right side you can see the device ap
 
 Unfortunately, to guarantee persistence, the app must show a persistent notification (as sneaky as possible):
 
-![screenshot2](screenshot2.png)
+<img src="screenshot2.png" width="25%">
 
 On notification/app opening the user will be redirected to a Google support page:
 
-![screenshot3](screenshot3.png)
+<img src="screenshot3.png" width="25%">
 
 ## Technical details
 
