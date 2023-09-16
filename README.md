@@ -10,6 +10,7 @@ This app was made for fun and informational purposes only. I strongly discourage
 - **Persistent** over time and reboots
 - **Hidden** and camouflaged with Google apps
 - **Drops additional statically linked executable and scripts** based on CPU architecture
+- Minimal code with no additional dependencies
 
 Executable and scripts integrated by default:
 - `socat` (aarch64 and x86/x64)
