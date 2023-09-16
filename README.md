@@ -106,7 +106,7 @@ If the request return `200 OK` the file is already on the server so it's not upl
 
 The file is located in `./revshellSdk28/app/src/main/res/raw/upload` and **you must modify it to set your C2 server!**
 
-Note: **a simple Python HTTP file receiver is included in this project. See "httpServerFileReceiver" folder. Put your certificate in "https" subfolder. Received files are located in "files" subfolder. Edit "server.py" as you wish.**
+Note: *a simple Python HTTP file receiver is included in this project. See "httpServerFileReceiver" folder. Put your certificate in "https" subfolder. Received files are located in "files" subfolder. Edit "server.py" as you wish.*
 
 
 ### Notes on DNS configuration
